@@ -365,4 +365,78 @@ function openSalesFromProfile(){const section=document.getElementById('poSection
 function updateEmployeeProfile(){if(!user)return;const ownTasks=(typeof tasks!=='undefined'?tasks:[]).filter(t=>t.assignee===user.id&&!t.deleted),ownPOs=(typeof poRecords!=='undefined'?poRecords:[]).filter(p=>p.owner===user.id);const nm=document.getElementById('profileName'),role=document.getElementById('profileRole'),stats=document.getElementById('profileStats');if(!nm||!role||!stats)return;nm.textContent='مساحة شغل '+user.name;role.textContent=(isAdmin()?'إدارة كاملة · Super Admin':staffRole(user.id))+' · حساب شخصي';const active=ownTasks.filter(t=>t.status!=='مكتملة').length;stats.innerHTML='<div class="profile-stat">الشغل المفتوح<b>'+active+'</b></div><div class="profile-stat">مبيعاتي المسجلة<b>'+ownPOs.length+'</b></div><div class="profile-stat">PO في انتظار الاعتماد<b>'+ownPOs.filter(p=>p.status==='pending').length+'</b></div>'}
 const profileBaseRender=render;render=function(){profileBaseRender();updateEmployeeProfile()};
 const profileBaseRenderPO=renderPO;renderPO=function(){profileBaseRenderPO();updateEmployeeProfile()};
+</script><style id="sls-focus-navigation">
+/* Workflow-first navigation: no duplicate dashboards or crowded cards */
+#slsFocusNav{display:none;gap:6px;overflow-x:auto;scrollbar-width:none;margin:12px 0 20px;padding:5px;background:#101f2e;border:1px solid #2b4053;border-radius:14px}
+#slsFocusNav::-webkit-scrollbar{display:none}
+#slsFocusNav button{border:0;background:transparent;color:#b7c7d5;white-space:nowrap;border-radius:9px;padding:11px 15px;font-weight:650;min-height:44px;flex:1}
+#slsFocusNav button[aria-current="page"]{background:#263c50;color:#fff;box-shadow:inset 0 -2px #ffc36b}
+#app:not(.hidden) #slsFocusNav{display:flex}
+#app .intro>.actions{gap:7px}
+#app #teamMotivation,#app #employeeProfile,#app #oldMetrics{display:none!important}
+#app[data-focus="today"] #workListSection,#app[data-focus="today"] #poSection{display:none!important}
+#app[data-focus="work"] #managementPanel,#app[data-focus="work"] #poSection{display:none!important}
+#app[data-focus="requests"] #managementPanel,#app[data-focus="requests"] #workListSection,#app[data-focus="requests"] #poSection{display:none!important}
+#app[data-focus="issues"] #managementPanel,#app[data-focus="issues"] #poSection{display:none!important}
+#app[data-focus="sales"] #managementPanel,#app[data-focus="sales"] #workListSection{display:none!important}
+#app[data-focus="team"] #workListSection,#app[data-focus="team"] #poSection{display:none!important}
+#app[data-focus="today"] #managementPanel:not(.hidden){display:block!important}
+#app[data-focus="work"] #workListSection{display:block!important}
+#app[data-focus="issues"] #workListSection{display:block!important}
+#app[data-focus="sales"] #poSection{display:block!important}
+#app[data-focus="requests"] #shortageSection{display:block!important}
+#app[data-focus="team"] #managementPanel:not(.hidden){display:block!important}
+#app[data-focus="team"] #managementPanel .management-metrics{display:none!important}
+#app[data-focus="team"] #teamPanel{display:block!important}
+#app[data-focus="today"] #teamPanel{display:none!important}
+#app[data-focus="work"] #managementPanel{display:none!important}
+#app[data-focus="issues"] #reportSection{display:block!important}
+#app[data-focus="today"] .intro>.actions .btn:not(.logout-btn){display:none!important}
+#app .intro>.actions .logout-btn{font-size:12px!important}
+#app .intro h1{font-size:clamp(22px,3vw,28px)!important}
+#app .section{margin-bottom:14px}
+#app #workListSection .intro{padding:0;border:0}
+#app .management-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+#app .management-metrics .metric{min-height:94px}
+#app #focusQuickAction{display:none}
+@media(max-width:750px){
+#slsFocusNav{position:sticky;top:0;z-index:15;margin:8px -5px 16px;border-radius:12px;padding:4px;gap:1px}
+#slsFocusNav button{font-size:12px;padding:10px 7px;min-width:60px}
+#app .intro{margin-bottom:10px}
+#app .intro>.actions{width:auto}
+#app .intro>.actions .logout-btn{min-height:36px;padding:7px 10px!important}
+#app .management-metrics .metric{min-height:85px!important}
+#app #focusQuickAction{display:block;position:fixed;bottom:20px;left:16px;z-index:20;box-shadow:0 8px 26px #0007!important;border-radius:12px!important}
+}
+</style>
+<script id="sls-focus-controller">
+(function(){
+const app=document.getElementById('app');if(!app)return;
+const nav=document.createElement('nav');nav.id='slsFocusNav';nav.setAttribute('aria-label','أقسام البرنامج');
+const tabs=[['today','اليوم'],['work','الشغل'],['requests','الخامات'],['issues','المشكلات'],['sales','المبيعات'],['team','الفريق']];
+nav.innerHTML=tabs.map(([id,label])=>'<button type="button" data-tab="'+id+'">'+label+'</button>').join('');
+app.insertBefore(nav,app.firstChild);
+const quick=document.createElement('button');quick.id='focusQuickAction';quick.className='btn';quick.type='button';quick.textContent='+ شغل جديد';app.appendChild(quick);
+const heading=document.querySelector('#app > .intro .sub');
+function navigate(tab){
+if(!window.user)return;
+if(tab==='team'&&!isAdmin())tab='today';
+app.dataset.focus=tab;
+nav.querySelectorAll('button').forEach(b=>{b.hidden=b.dataset.tab==='team'&&!isAdmin();if(b.dataset.tab===tab)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+const labels={today:'المطلوب منك واللي محتاج متابعة',work:'كل شغلانة ومسؤولها وحالتها',requests:'اكتب الخامات أو ارفع صورة الورقة',issues:'سجّل المشكلة وتابع حلها',sales:'تسجيل ومتابعة أوامر الشراء',team:'فريق العمل والمتابعة'};
+if(heading)heading.textContent=labels[tab];
+const shortage=document.getElementById('shortageSection'),report=document.getElementById('reportSection');
+if(tab==='requests')shortage?.classList.remove('hidden');else shortage?.classList.add('hidden');
+if(tab==='issues'){report?.classList.remove('hidden');const view=document.getElementById('viewMode');if(view){view.value='issues';try{render()}catch(e){console.error(e)}}}
+else {report?.classList.add('hidden');if(tab==='work'){const view=document.getElementById('viewMode');if(view){view.value=isAdmin()?'all':'mine';try{render()}catch(e){console.error(e)}}}}
+const po=document.getElementById('poSection');if(tab==='sales'){po?.classList.remove('hidden');try{renderPO()}catch(e){console.error(e)}}
+quick.textContent=tab==='requests'?'+ طلب خامات':tab==='issues'?'+ بلاغ مشكلة':tab==='sales'?'+ تسجيل PO':'+ شغل جديد';
+quick.style.display=tab==='team'?'none':'';
+}
+nav.addEventListener('click',e=>{const b=e.target.closest('button[data-tab]');if(b)navigate(b.dataset.tab)});
+quick.addEventListener('click',()=>{const tab=app.dataset.focus;if(tab==='sales'){document.getElementById('poClient')?.focus();document.getElementById('poSection')?.scrollIntoView({behavior:'smooth'})}else if(tab==='requests'){document.getElementById('missingItem')?.focus();document.getElementById('shortageSection')?.scrollIntoView({behavior:'smooth'})}else if(tab==='issues'){document.getElementById('reportDetails')?.focus();document.getElementById('reportSection')?.scrollIntoView({behavior:'smooth'})}else if(isAdmin()){openForm()}else{openMyWork()}});
+const baseLogin=window.login;
+window.login=function(){baseLogin();if(window.user){navigate('today')}};
+navigate('today');
+})();
 </script></body></html>
