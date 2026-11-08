@@ -764,9 +764,19 @@ const samples=[
 {title:'مراجعة طلب عميل — Slings & Shackles',description:'مراجعة مواصفات طلب عميل تجريبي لعدد 4 Slings و8 Shackles، ومطابقة المقاسات وWLL قبل إرسال العرض النهائي.\nالحالة: تم تجميع البيانات، في انتظار المراجعة النهائية.',department:'Sales',assignee:'sandy',priority:'عادية',status:'جاري التنفيذ',history:['استلام بيانات الطلب التجريبي','مراجعة المقاسات والكميات','في انتظار اعتماد العرض']},
 {title:'فحص نهائي وتجهيز تسليم شغلانة مكتملة',description:'انتهى تصنيع وتجهيز الشغلانة التجريبية، وتمت مراجعة المقاسات والفحص الظاهري وتجهيز مستندات التسليم.',department:'Wire Rope',assignee:'islam',priority:'عادية',status:'مكتملة',history:['اكتمال التصنيع','الفحص النهائي','تجهيز مستندات التسليم']}
 ];
+{title:'تجهيز Wire Rope Sling قطر 22 مم — عدد 6',description:'قص الواير وتجهيز النهايات، تم تجهيز 2 من 6 قطع. مطلوب استكمال الكبس والفحص.',department:'Wire Rope',assignee:'islam',priority:'عالية',status:'جاري التنفيذ',history:['استلام أمر التشغيل','قص 6 أطوال','تجهيز قطعتين']},
+{title:'تجميع 4 Steel Frames للعميل',description:'القص مكتمل، جارٍ التجميع واللحام. مستهدف الانتهاء من التجميع ثم فحص الأبعاد.',department:'Steel Fabrication',assignee:'hossam',priority:'عادية',status:'جاري التنفيذ',history:['استلام الرسم','اكتمال القص','بدء التجميع']},
+{title:'مراجعة مقاسات Shackles قبل التسليم',description:'مراجعة WLL والمقاسات والكميات مع أمر البيع، ثم تجهيز كشف التسليم.',department:'Sales',assignee:'sandy',priority:'عادية',status:'جاري التنفيذ',history:['استلام طلب العميل','مطابقة الكميات']},
+{title:'طلب عميل عاجل — 12 Webbing Slings',description:'العميل طلب توريد عاجل. مطلوب مراجعة المخزون وتأكيد موعد التسليم قبل الرد.',department:'Sales',assignee:'sandy',priority:'عالية',status:'جديدة',history:['تسجيل استفسار العميل','بانتظار تأكيد المخزون']},
+{title:'مراجعة رسم قاعدة معدنية قبل التصنيع',description:'تعارض في أحد الأبعاد بالرسم. التصنيع متوقف لحين تأكيد المقاس من الإدارة.',department:'Steel Fabrication',assignee:'hossam',priority:'عالية',status:'متوقفة',issues:[{detail:'اختلاف بعد في الرسم بين المسقط والقطاع',owner:'mahmoud',status:'مفتوحة'}],history:['حسام لاحظ اختلاف البعد','تم تصعيد الاستفسار للإدارة']},
+{title:'تجهيز 10 Master Links & Hooks',description:'فرز القطع حسب المقاس وWLL وتوثيق نتائج الفحص قبل التسليم.',department:'Wire Rope',assignee:'islam',priority:'عادية',status:'جاري التنفيذ',history:['استلام المكونات','بدء الفرز والفحص']},
+{title:'تجهيز طلبية حبال رفع للتسليم',description:'تم الفحص والتغليف، في انتظار مراجعة مستندات التسليم.',department:'Wire Rope',assignee:'islam',priority:'عادية',status:'بانتظار الاعتماد',history:['اكتمال التصنيع','اكتمال الفحص','طلب مراجعة مستندات التسليم']},
+{title:'إغلاق أعمال لحام حوامل معدنية',description:'اكتملت أعمال اللحام ومراجعة الأبعاد، وتم تسليمها للفحص النهائي.',department:'Steel Fabrication',assignee:'hossam',priority:'عادية',status:'مكتملة',history:['اكتمال اللحام','مراجعة الأبعاد','إغلاق أمر التشغيل']},
 const shortages=[
 {item:'Ferrules مطابقة لقطر 16 مم — مراجعة المقاس المعتمد',department:'Wire Rope',urgency:'عاجلة',blocks:true,note:'مطلوب التأكد من المواصفة والمقاس قبل طلب الشراء؛ النقص مرتبط بشغلانة متوقفة.',by:'islam'},
 {item:'مستلزمات لحام للتجميع النهائي — حسب كشف حسام',department:'Steel Fabrication',urgency:'عاجلة',blocks:true,note:'تحديد النوع والكمية من كشف الخامات ومراجعة المخزون قبل التوريد.',by:'hossam'},
+{item:'أقراص قطع وجلخ للتصنيع المعدني',department:'Steel Fabrication',urgency:'عادية',blocks:false,note:'مطلوب استكمال رصيد المستهلكات للأسبوع الحالي.',by:'hossam'},
+{item:'Thimbles مناسبة لقطر 22 مم',department:'Wire Rope',urgency:'عاجلة',blocks:false,note:'مراجعة الرصيد والمقاس المعتمد لأمر التشغيل.',by:'islam'},
 {item:'بطاقات تعريف وتغليف Slings جاهزة للتسليم',department:'Wire Rope',urgency:'عادية',blocks:false,note:'طلب استكمال تجهيزات التسليم بعد الفحص النهائي.',by:'islam'}
 ];
 const bar=document.createElement('div');bar.id='slsDemoBar';bar.innerHTML='<div class="sls-demo-head"><span class="sls-demo-tag">بيانات تجريبية</span><button type="button" id="slsDemoToggle" aria-expanded="false">إدارة العرض ▾</button></div><div class="sls-demo-controls" id="slsDemoControls" hidden><span class="sls-demo-note" id="slsDemoNote">للعرض فقط</span><button type="button" id="slsDemoLoad">تجهيز التشغيل</button><button type="button" id="slsDemoClear">مسح العرض</button></div>';
@@ -779,11 +789,11 @@ function update(){if(typeof user==='undefined'||!user){bar.style.display='none';
 document.getElementById('slsDemoLoad').onclick=()=>{
 if(!isAdmin())return;
 const current=read(TASK_KEY),existing=read(SHORT_KEY);
-if(current.some(t=>String(t.id).startsWith(DEMO))){alert('بيانات العرض موجودة بالفعل.');return}
+if(current.some(t=>String(t.id).startsWith(DEMO))){alert('بيانات التشغيل التجريبية موجودة بالفعل. استخدم تجهيز POs لإضافة المبيعات.');return}
 const at=stamp();
 const rows=samples.map((t,i)=>({id:DEMO+'task_'+i,title:t.title,description:t.description,department:t.department,assignee:t.assignee,priority:t.priority,due:'',status:t.status,createdBy:'mahmoud',createdAt:at,demo:true,issues:(t.issues||[]).map((x,j)=>({...x,id:DEMO+'issue_'+i+'_'+j,by:t.assignee,at})),history:t.history.map(message=>({by:'mahmoud',at,message}))}));
 const needs=shortages.map((x,i)=>({id:DEMO+'material_'+i,item:x.item,qty:'',photo:'',linkedTaskId:i===0?DEMO+'task_2':i===1?DEMO+'task_3':'',owner:'mahmoud',department:x.department,urgency:x.urgency,blocks:x.blocks,note:x.note,by:x.by,at,status:'تم التسجيل',demo:true,history:[{by:x.by,at,message:'طلب خامات تجريبي للعرض'}]}));
-try{write(TASK_KEY,[...rows,...current]);write(SHORT_KEY,[...needs,...existing]);refresh();update();window.slsGo?.('today');alert('تم تجهيز 6 شغلانات و3 طلبات خامات تجريبية.')}catch(e){alert('تعذر تجهيز بيانات العرض: '+e.message)}
+try{write(TASK_KEY,[...rows,...current]);write(SHORT_KEY,[...needs,...existing]);refresh();update();window.slsGo?.('today');alert('تم تجهيز 14 شغلانة و5 طلبات خامات تجريبية. اضغط تجهيز POs لإضافة المبيعات.')}catch(e){alert('تعذر تجهيز بيانات العرض: '+e.message)}
 };
 document.getElementById('slsDemoClear').onclick=()=>{
 if(!isAdmin())return;if(!confirm('مسح بيانات العرض التجريبية فقط؟ لن تُحذف بياناتك الأخرى.'))return;
@@ -808,7 +818,7 @@ const samples=[
 ];
 const read=()=>{try{const p=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(p)?p:[]}catch(e){return []}};
 const bar=document.getElementById('slsDemoBar');if(!bar)return;
-const button=document.createElement('button');button.type='button';button.textContent='تجهيز POs';button.id='slsDemoPO';bar.insertBefore(button,document.getElementById('slsDemoClear'));
+const button=document.createElement('button');button.type='button';button.textContent='تجهيز POs';button.id='slsDemoPO';document.getElementById('slsDemoControls').insertBefore(button,document.getElementById('slsDemoClear'));
 const doc='data:image/svg+xml;charset=utf-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="640" height="320"><rect width="640" height="320" fill="#142237"/><text x="35" y="75" font-family="Arial" font-size="30" fill="#efcf92">SLS - DEMO PO</text><text x="35" y="130" font-family="Arial" font-size="19" fill="white">SAMPLE DOCUMENT - NOT A REAL ORDER</text></svg>');
 button.onclick=()=>{
 if(!isAdmin())return;
