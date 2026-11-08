@@ -539,6 +539,18 @@ header .sls-official-logo text{fill:#e6edf5!important}
 #slsDemoBar .sls-demo-state{font-size:10px;color:#a9b7c8;white-space:nowrap}
 #slsDemoBar #slsDemoToggle{font-size:10px!important;white-space:nowrap}
 @media(max-width:430px){#slsDemoBar .sls-demo-head{gap:4px}#slsDemoBar .sls-demo-switch{font-size:11px}#slsDemoBar .sls-demo-state{font-size:9px}}
+</style><style id="sls-role-focus-system">
+#slsRoleFocus[hidden]{display:none!important}
+#slsRoleFocus{margin:4px 0 12px;padding:13px;border:1px solid #34475c;border-radius:13px;background:#101d2b}
+#slsRoleFocus .sls-focus-heading h3{font-size:17px;margin:0;color:#f4f5f7}
+#slsRoleFocus .sls-focus-heading p{font-size:11px;margin:4px 0 12px;color:#9cabbc}
+#slsRoleFocus .sls-focus-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#slsRoleFocus .sls-focus-item{border:1px solid #30475d;border-radius:10px;background:#17283a;color:#c7d3df;padding:11px;text-align:right;min-height:75px;display:flex;flex-direction:column;justify-content:space-between;gap:7px;cursor:pointer}
+#slsRoleFocus .sls-focus-item span{font-size:11px}
+#slsRoleFocus .sls-focus-item strong{font-size:23px;color:#f0f3f7;line-height:1.1}
+#slsRoleFocus .sls-focus-item .sls-focus-alert{color:#e4bc83}
+#slsRoleFocus .sls-focus-foot{font-size:11px;color:#aab7c7;margin:11px 0 0}
+@media(min-width:700px){#slsRoleFocus .sls-focus-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style></head><body><header><div><strong><svg class="sls-official-logo" viewBox="0 0 120 120" role="img" aria-label="SLS" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="16" r="11" fill="none" stroke="#07172f" stroke-width="7"/><path d="M60 27V38" stroke="#07172f" stroke-width="9"/><text x="60" y="70" text-anchor="middle" fill="#07172f" font-family="Arial,sans-serif" font-size="41" font-weight="800" letter-spacing="1">SLS</text><path d="M60 76V109M24 86Q60 126 96 86" fill="none" stroke="#07172f" stroke-width="9"/><path d="M23 86l1 17 13-9M97 86l-1 17-13-9" fill="#1264a5"/></svg> <span class="sls-header-name">إدارة مصنع SLS</span><span class="brand-secondary">SPECIALISED LIFTING SERVICES</span></strong><small>إدارة وتشغيل المصنع</small></div><div class="identity"><span id="who">مساحة العمل</span><div class="avatar" id="avatar">S</div></div></header>
 <div class="shell"><section id="login" class="section login"><h1>تسجيل الدخول</h1><p class="sub">الوصول إلى نظام إدارة المصنع</p><label class="field">المستخدم</label><select id="loginUser"><option value="mahmoud">محمود زيدان</option><option value="mohamed">محمد عبد الدايم</option><option value="islam">إسلام</option><option value="hossam">حسام</option><option value="sandy">ساندي</option></select><label class="field">كلمة المرور</label><input id="password" type="password" placeholder="كلمة المرور"><p id="loginError" style="color:#b42318;font-size:13px"></p><button class="btn" style="width:100%;margin-top:10px" onclick="login()">دخول</button></section>
 <main id="app" class="hidden"><div class="intro"><div><h1 id="greeting">مساحة العمل</h1><div class="sub">متابعة التشغيل والمهام والمبيعات في مكان واحد.</div></div><div class="actions"><button class="btn light" onclick="openReport()">⚠️ بلّغ عن مشكلة</button><button class="btn light" onclick="toggleShortage()">📦 طلب خامات</button><button class="btn light logout-btn" onclick="logout()">خروج</button></div></div><section id="employeeProfile" class="profile-panel" aria-label="بروفايل الموظف"><div><h2 id="profileName">مساحة شغلي</h2><p id="profileRole"></p><div id="profileStats" class="profile-stats"></div></div><div class="profile-actions"><button class="btn" type="button" onclick="openMyWork()">+ إضافة شغل</button><button class="btn" type="button" onclick="openSalesFromProfile()">+ تسجيل بيع / PO</button></div></section>
@@ -725,7 +737,9 @@ nav.innerHTML='<div class="sls-brand"><span class="sls-brand-mark">SLS</span><di
 const main=document.createElement('main');main.id='slsMain';
 const title=document.createElement('div');title.id='slsPageTitle';
 const hero=document.createElement('div');hero.id='slsHero';hero.innerHTML='<div><span class="sls-eyebrow">SLS / OPERATIONS HUB</span><h2>المصنع كله قدامك.</h2><p>تابع التنفيذ، اتصرف في اللي واقف، وخلي كل حاجة في مكانها.</p></div><div class="sls-hero-actions"><button type="button" id="slsCommand" class="btn light">⌕ بحث سريع <kbd>Ctrl K</kbd></button><button type="button" id="slsHeroNew" class="btn">+ شغل جديد</button></div>';
-main.append(title,hero);workspace.append(nav,main);intro.after(workspace);
+main.append(title,hero);
+const focusPanel=document.createElement('section');focusPanel.id='slsRoleFocus';focusPanel.setAttribute('aria-label','أولويات العمل');main.append(focusPanel);
+workspace.append(nav,main);intro.after(workspace);
 let node=workspace.nextSibling;while(node){const next=node.nextSibling;if(node.nodeType===1)main.appendChild(node);node=next}
 const movable=['managementPanel','employeeProfile','workListSection','form','myWorkForm','shortageSection','reportSection','poSection'];
 let current='today';
@@ -736,6 +750,29 @@ current=page;app.dataset.focus=page;
 nav.querySelectorAll('[data-page]').forEach(b=>{b.hidden=b.dataset.page==='team'&&!isAdmin();b.toggleAttribute('aria-current',b.dataset.page===page)});
 const p=pages.find(x=>x[0]===page)||pages[0];const profile=document.getElementById('employeeProfile');if(profile)profile.hidden=isAdmin();
 title.innerHTML='<div><h2>'+p[1]+'</h2><p>'+p[2]+'</p></div><button type="button" class="btn" id="slsNewAction">'+(page==='requests'?'+ طلب خامات':page==='issues'?'+ بلاغ جديد':page==='sales'?'+ أمر شراء':'+ شغل جديد')+'</button>';const actionButton=title.querySelector('button');actionButton.hidden=page==='today'||page==='team'||(page==='sales'&&isAdmin());
+const focus=document.getElementById('slsRoleFocus');
+if(focus){
+focus.hidden=page!=='today';
+if(page==='today'){
+const admin=isAdmin(),owner=user.id==='mohamed',visible=tasks.filter(t=>!t.deleted&&(admin||t.assignee===user.id)),openJobs=visible.filter(t=>!['مكتملة','تم الإغلاق'].includes(t.status)),blocked=openJobs.filter(t=>t.status==='متوقفة'),late=openJobs.filter(t=>t.due&&t.due<new Date().toLocaleDateString('en-CA')),problems=openJobs.filter(t=>(t.issues||[]).some(i=>i.status!=='تم الحل')),needs=shortages.filter(x=>x.status!=='تم الإغلاق'&&(admin||x.by===user.id||x.owner===user.id)),pendingSales=admin?poRecords.filter(p=>p.status==='pending'):poRecords.filter(p=>p.owner===user.id&&p.status==='pending'),currency=v=>new Intl.NumberFormat('en-EG',{maximumFractionDigits:0}).format(v)+' ج.م';
+const month=new Date().toLocaleDateString('en-CA').slice(0,7),sales=poRecords.filter(p=>p.status==='approved'&&p.date?.startsWith(month)&&(admin||p.owner===user.id)),salesAmount=sales.reduce((n,p)=>n+Number(p.amount||0),0);
+const items=admin?[
+{label:'شغل متوقف',value:blocked.length,page:'work',critical:true},
+{label:'مشكلات مفتوحة',value:problems.length,page:'issues',critical:true},
+{label:'طلبات خامات',value:needs.length,page:'requests'},
+{label:'PO بانتظار الاعتماد',value:pendingSales.length,page:'sales'}
+]:[
+{label:'شغل مطلوب مني',value:openJobs.length,page:'work'},
+{label:'شغل متوقف',value:blocked.length,page:'work',critical:true},
+{label:'طلبات خامات',value:needs.length,page:'requests'},
+{label:'مبيعاتي المعتمدة',value:currency(salesAmount),page:'sales'}
+];
+const heading=owner?'نظرة الإدارة العليا':admin?'أولويات المصنع':'شغلك النهارده';
+const summary=owner?'مؤشرات مختصرة للمتابعة واتخاذ القرار':admin?'اللي محتاج متابعة أو قرار دلوقتي':'كل حاجة تخصك في مكان واحد';
+focus.innerHTML='<div class="sls-focus-heading"><div><h3>'+heading+'</h3><p>'+summary+'</p></div></div><div class="sls-focus-grid">'+items.map(item=>'<button type="button" class="sls-focus-item" data-focus-page="'+item.page+'"><span>'+item.label+'</span><strong class="'+(item.critical&&item.value?'sls-focus-alert':'')+'">'+item.value+'</strong></button>').join('')+'</div>'+(admin?'<p class="sls-focus-foot">متأخر عن الموعد: '+late.length+' · مبيعات الشهر المعتمدة: '+currency(salesAmount)+'</p>':'');
+focus.querySelectorAll('[data-focus-page]').forEach(b=>b.onclick=()=>go(b.dataset.focusPage));
+}
+}
 const wanted=sections[page]||[];
 movable.forEach(id=>{const el=document.getElementById(id);if(!el)return;if(id==='form'||id==='myWorkForm'){el.classList.add('hidden');return}el.classList.toggle('hidden',!wanted.includes(id)||(id==='managementPanel'&&!isAdmin()))});
 hero.hidden=true;
