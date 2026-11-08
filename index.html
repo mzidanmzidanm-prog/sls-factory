@@ -468,12 +468,24 @@ header .brand-secondary{display:none!important}
 #app .metric strong{font-size:26px!important}
 #app .task{padding:13px!important}
 }
+
+/* SLS Premium UX refinement — non-destructive presentation layer */
+:root{--sls-focus:#4388ff;--sls-success:#18a58c;--sls-warning:#d99a36}
+#slsNav button,#slsPageTitle .btn{transition:background-color .18s ease,color .18s ease,transform .18s ease,border-color .18s ease}
+#slsNav button:hover{background:rgba(67,136,255,.10)!important}
+#slsNav button:focus-visible,#slsPageTitle button:focus-visible,.btn:focus-visible{outline:2px solid var(--sls-focus)!important;outline-offset:3px}
+#slsPageTitle h2{letter-spacing:-.025em;line-height:1.5}
+#slsPageTitle p{line-height:1.65}
+#app .task,#app .metric{transition:border-color .18s ease,background-color .18s ease}
+#app .task:hover{border-color:rgba(67,136,255,.36)!important}
+#app .btn:active{transform:scale(.985)}
+@media(prefers-reduced-motion:reduce){#slsNav button,#slsPageTitle .btn,#app .task,#app .metric{transition:none!important}#app .btn:active{transform:none!important}}
 </style>
 <script id="sls-premium-controller">
 (function(){
 const app=document.getElementById('app');if(!app)return;
 const icons={today:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',work:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',requests:'<path d="M4 7h16v13H4zM8 7V4h8v3M4 12h16"/>',issues:'<path d="M12 3 2 21h20L12 3zM12 9v5M12 18h.01"/>',sales:'<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 10h18M7 16h3"/>',team:'<circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M17 6a3 3 0 0 1 0 6M18 15a5 5 0 0 1 3 5"/>'};
-const pages=[['today','نظرة عامة','الأهم الآن، من غير تفاصيل مالهاش لازمة'],['work','الشغل','المهام والمسؤوليات وتحديثات التنفيذ'],['requests','الخامات','طلبات الخامات والمرفقات والمتابعة'],['issues','المشكلات','المشكلات المسجلة وحالة حلها'],['sales','المبيعات','أوامر الشراء والمراجعة'],['team','الفريق','متابعة مسؤوليات الفريق']];
+const pages=[['today','نظرة على المصنع','الشغل الجاري والقرارات اللي محتاجة متابعتك'],['work','الشغل الجاري','مين مسؤول عن إيه وآخر تطورات التنفيذ'],['requests','طلبات الخامات','النواقص والطلبات والمرفقات في مكان واحد'],['issues','معطّلات الشغل','المشاكل المسجلة وإيه اللي اتعمل فيها'],['sales','المبيعات','أوامر الشراء والمتابعة والاعتمادات'],['team','فريق العمل','مسؤوليات كل فرد وتطورات شغله']];
 const intro=app.querySelector(':scope > .intro');const nav=document.createElement('nav');nav.id='slsNav';nav.setAttribute('aria-label','التنقل الرئيسي');nav.innerHTML='<div class="nav-caption">WORKSPACE</div>'+pages.map(([id,title])=>'<button type="button" data-page="'+id+'"><svg viewBox="0 0 24 24" aria-hidden="true">'+icons[id]+'</svg><span>'+title+'</span></button>').join('');
 const workspace=document.createElement('div');workspace.id='slsWorkspace';const main=document.createElement('div');main.id='slsMain';const title=document.createElement('div');title.id='slsPageTitle';main.appendChild(title);workspace.append(nav,main);
 intro.after(workspace);
@@ -481,7 +493,7 @@ let node=workspace.nextSibling;while(node){const next=node.nextSibling;if(node.n
 function go(page){
 if(typeof user==='undefined'||!user)return;if(page==='team'&&!isAdmin())page='today';app.dataset.focus=page;
 nav.querySelectorAll('button').forEach(b=>{b.hidden=b.dataset.page==='team'&&!isAdmin();if(b.dataset.page===page)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
-const p=pages.find(x=>x[0]===page);title.innerHTML='<div><h2>'+p[1]+'</h2><p>'+p[2]+'</p></div><button type="button" class="btn" id="slsNewAction">'+(page==='requests'?'طلب جديد':page==='issues'?'بلاغ جديد':page==='sales'?'تسجيل PO':page==='team'?'عرض الشغل':'+ شغل جديد')+'</button>';
+const p=pages.find(x=>x[0]===page);title.innerHTML='<div><h2>'+p[1]+'</h2><p>'+p[2]+'</p></div><button type="button" class="btn" id="slsNewAction">'+(page==='requests'?'سجّل طلب خامات':page==='issues'?'سجّل مشكلة':page==='sales'?'تسجيل PO':page==='team'?'تابع الشغل':'+ شغل جديد')+'</button>';
 const action=title.querySelector('button');action.onclick=()=>{if(page==='team')go('work');else if(page==='requests'){openMaterialRequest()}else if(page==='issues'){openReport()}else if(page==='sales'){document.getElementById('poClient')?.focus()}else if(isAdmin())openForm();else openMyWork()};
 const shortage=document.getElementById('shortageSection'),report=document.getElementById('reportSection'),po=document.getElementById('poSection');
 if(page==='requests'){shortage?.classList.remove('hidden');try{renderShortages()}catch(e){console.error(e)}}else shortage?.classList.add('hidden');
