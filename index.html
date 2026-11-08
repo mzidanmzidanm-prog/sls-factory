@@ -365,78 +365,134 @@ function openSalesFromProfile(){const section=document.getElementById('poSection
 function updateEmployeeProfile(){if(!user)return;const ownTasks=(typeof tasks!=='undefined'?tasks:[]).filter(t=>t.assignee===user.id&&!t.deleted),ownPOs=(typeof poRecords!=='undefined'?poRecords:[]).filter(p=>p.owner===user.id);const nm=document.getElementById('profileName'),role=document.getElementById('profileRole'),stats=document.getElementById('profileStats');if(!nm||!role||!stats)return;nm.textContent='مساحة شغل '+user.name;role.textContent=(isAdmin()?'إدارة كاملة · Super Admin':staffRole(user.id))+' · حساب شخصي';const active=ownTasks.filter(t=>t.status!=='مكتملة').length;stats.innerHTML='<div class="profile-stat">الشغل المفتوح<b>'+active+'</b></div><div class="profile-stat">مبيعاتي المسجلة<b>'+ownPOs.length+'</b></div><div class="profile-stat">PO في انتظار الاعتماد<b>'+ownPOs.filter(p=>p.status==='pending').length+'</b></div>'}
 const profileBaseRender=render;render=function(){profileBaseRender();updateEmployeeProfile()};
 const profileBaseRenderPO=renderPO;renderPO=function(){profileBaseRenderPO();updateEmployeeProfile()};
-</script><style id="sls-focus-navigation">
-/* Workflow-first navigation: no duplicate dashboards or crowded cards */
-#slsFocusNav{display:none;gap:6px;overflow-x:auto;scrollbar-width:none;margin:12px 0 20px;padding:5px;background:#101f2e;border:1px solid #2b4053;border-radius:14px}
-#slsFocusNav::-webkit-scrollbar{display:none}
-#slsFocusNav button{border:0;background:transparent;color:#b7c7d5;white-space:nowrap;border-radius:9px;padding:11px 15px;font-weight:650;min-height:44px;flex:1}
-#slsFocusNav button[aria-current="page"]{background:#263c50;color:#fff;box-shadow:inset 0 -2px #ffc36b}
-#app:not(.hidden) #slsFocusNav{display:flex}
-#app .intro>.actions{gap:7px}
-#app #teamMotivation,#app #employeeProfile,#app #oldMetrics{display:none!important}
-#app[data-focus="today"] #workListSection,#app[data-focus="today"] #poSection{display:none!important}
-#app[data-focus="work"] #managementPanel,#app[data-focus="work"] #poSection{display:none!important}
-#app[data-focus="requests"] #managementPanel,#app[data-focus="requests"] #workListSection,#app[data-focus="requests"] #poSection{display:none!important}
-#app[data-focus="issues"] #managementPanel,#app[data-focus="issues"] #poSection{display:none!important}
-#app[data-focus="sales"] #managementPanel,#app[data-focus="sales"] #workListSection{display:none!important}
-#app[data-focus="team"] #workListSection,#app[data-focus="team"] #poSection{display:none!important}
-#app[data-focus="today"] #managementPanel:not(.hidden){display:block!important}
-#app[data-focus="work"] #workListSection{display:block!important}
-#app[data-focus="issues"] #workListSection{display:block!important}
-#app[data-focus="sales"] #poSection{display:block!important}
-#app[data-focus="requests"] #shortageSection{display:block!important}
-#app[data-focus="team"] #managementPanel:not(.hidden){display:block!important}
-#app[data-focus="team"] #managementPanel .management-metrics{display:none!important}
-#app[data-focus="team"] #teamPanel{display:block!important}
-#app[data-focus="today"] #teamPanel{display:none!important}
-#app[data-focus="work"] #managementPanel{display:none!important}
-#app[data-focus="issues"] #reportSection{display:block!important}
-#app[data-focus="today"] .intro>.actions .btn:not(.logout-btn){display:none!important}
-#app .intro>.actions .logout-btn{font-size:12px!important}
-#app .intro h1{font-size:clamp(22px,3vw,28px)!important}
-#app .section{margin-bottom:14px}
-#app #workListSection .intro{padding:0;border:0}
-#app .management-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-#app .management-metrics .metric{min-height:94px}
-#app #focusQuickAction{display:none}
-@media(max-width:750px){
-#slsFocusNav{position:sticky;top:0;z-index:15;margin:8px -5px 16px;border-radius:12px;padding:4px;gap:1px}
-#slsFocusNav button{font-size:12px;padding:10px 7px;min-width:60px}
-#app .intro{margin-bottom:10px}
-#app .intro>.actions{width:auto}
-#app .intro>.actions .logout-btn{min-height:36px;padding:7px 10px!important}
-#app .management-metrics .metric{min-height:85px!important}
-#app #focusQuickAction{display:block;position:fixed;bottom:20px;left:16px;z-index:20;box-shadow:0 8px 26px #0007!important;border-radius:12px!important}
+</script><style id="sls-premium-product">
+:root{--p-bg:#080e17;--p-panel:#111b29;--p-panel2:#172436;--p-line:#26364a;--p-muted:#8ea2b9;--p-ink:#eff5fa;--p-accent:#d9b87a}
+html,body{background:#080e17!important;color:var(--p-ink)!important}
+body{font-family:Inter,"Segoe UI",Tahoma,system-ui,sans-serif!important;line-height:1.55}
+header{height:76px!important;background:#0b1420!important;border:0!important;border-bottom:1px solid #26364a!important;box-shadow:none!important;padding:12px max(24px,calc((100vw - 1260px)/2))!important}
+header strong{font-size:17px!important;letter-spacing:1px!important;color:#fff!important}
+header .brand-secondary{font-size:10px!important;letter-spacing:1.6px!important;color:#a1b0c1!important}
+header .identity{font-size:12px!important;color:#bac9d9!important}
+header .avatar{background:#26384b!important;color:#f3e3c3!important;border:1px solid #455569!important}
+.shell{max-width:1260px!important;padding:24px 24px 80px!important}
+#app{position:relative;min-height:70vh}
+#app>.intro{border:0!important;padding:9px 0 26px!important;margin:0!important}
+#app>.intro h1{font-size:clamp(25px,2.7vw,36px)!important;letter-spacing:-.7px!important;color:#f4f7fa!important;font-weight:760!important}
+#app>.intro .sub{font-size:13px!important;color:#9cacc0!important}
+#app>.intro .actions{margin:0!important}
+#app>.intro .actions .btn:not(.logout-btn){display:none!important}
+#app>.intro .logout-btn{background:transparent!important;border:1px solid #354459!important;color:#b4c2d2!important;font-size:12px!important;padding:8px 12px!important}
+#slsWorkspace{display:grid;grid-template-columns:218px minmax(0,1fr);gap:30px;align-items:start}
+#slsNav{position:sticky;top:18px;display:flex;flex-direction:column;gap:5px;background:#0d1623;border:1px solid #233246;border-radius:16px;padding:14px}
+#slsNav .nav-caption{color:#71879e;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:12px 12px 8px}
+#slsNav button{border:0;background:transparent;color:#aebed0;display:flex;align-items:center;gap:12px;text-align:right;border-radius:9px;padding:12px 13px;min-height:44px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,color .15s}
+#slsNav button svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7;flex:none}
+#slsNav button:hover{background:#1a293a;color:#fff}
+#slsNav button[aria-current=page]{background:#26364a;color:#f5d79e;box-shadow:inset -3px 0 #d9b87a}
+#slsNav button[hidden]{display:none}
+#slsMain{min-width:0}
+#slsPageTitle{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 18px}
+#slsPageTitle h2{font-size:20px!important;margin:0!important;font-weight:740;color:#f2f5f9!important}
+#slsPageTitle p{font-size:12px;color:#92a4b8;margin:5px 0 0}
+#slsPageTitle .btn{white-space:nowrap}
+#app .section,#app #managementPanel,#app .profile-panel{background:#111c2a!important;border:1px solid #28394b!important;border-radius:14px!important;box-shadow:none!important;margin:0 0 16px!important;padding:20px!important}
+#app .section h2,#app .section h3,#app .section h4{color:#eef4fa!important}
+#app .section>.intro{border:0!important;padding:0 0 12px!important}
+#app .sub,#app .muted,#app .field{color:#94a8bd!important}
+#app .metrics{gap:12px!important;margin:12px 0!important}
+#app .metric,#app #managementPanel .metric,#app .profile-stat{background:#172638!important;border:1px solid #304359!important;border-radius:11px!important;min-height:102px!important;padding:16px!important;box-shadow:none!important}
+#app .metric .top{font-size:12px!important;color:#a6b7c9!important}
+#app .metric strong{font-size:30px!important;color:#f2f5f9!important}
+#app .task,#app .compact-work,#app .staff-task,#app .admin-fold,#app .staff-member{background:#152233!important;border:1px solid #2c4055!important;border-radius:10px!important;box-shadow:none!important}
+#app .task{padding:16px!important;margin-bottom:10px!important}
+#app .task h3,#app .staff-task h4{color:#eaf2fa!important}
+#app .task p,#app .staff-line span{color:#a6b8ca!important}
+#app .tasklist{grid-template-columns:1fr!important;gap:9px!important}
+#app .work-detail{border-top:1px solid #304359!important}
+#app .work-detail>summary{background:#24374b!important;color:#d4e3f2!important}
+#app .btn{border-radius:9px!important;background:#d9b87a!important;color:#152132!important;border:1px solid #d9b87a!important;font-weight:750!important;box-shadow:none!important;padding:10px 15px!important}
+#app .btn.light,#app .btn.ghost{background:#203246!important;color:#d5e2ee!important;border:1px solid #374b60!important}
+#app input,#app select,#app textarea{background:#0d1926!important;border:1px solid #3b5065!important;color:#f4f7fb!important;border-radius:9px!important}
+#app input:focus,#app select:focus,#app textarea:focus{border-color:#d9b87a!important;box-shadow:0 0 0 3px #d9b87a22!important}
+#app .notice{color:#aebfd0!important;border:1px solid #34475b!important;background:#162536!important;border-radius:10px!important;padding:11px 14px!important}
+#app .chip{background:#263a4e!important;color:#c6d8e9!important;border-radius:6px!important}
+#app .chip.blocked{background:#473033!important;color:#ffb9b2!important}
+#app .chip.done{background:#1e433a!important;color:#9fe2c6!important}
+#app .chip.active{background:#223e5d!important;color:#a9d6ff!important}
+#app .admin-fold>summary{background:transparent!important;color:#e4edf7!important}
+#app .admin-fold>summary span{background:#273b50!important;color:#d3e2f0!important}
+#app .empty{color:#9eb0c4!important}
+#app #teamPanel{display:none!important}
+#app[data-focus=team] #teamPanel{display:block!important}
+#app #managementPanel .management-heading{margin-bottom:12px!important}
+#app[data-focus=today] #workListSection,#app[data-focus=today] #poSection{display:none!important}
+#app[data-focus=work] #managementPanel,#app[data-focus=work] #poSection{display:none!important}
+#app[data-focus=requests] #managementPanel,#app[data-focus=requests] #workListSection,#app[data-focus=requests] #poSection{display:none!important}
+#app[data-focus=issues] #managementPanel,#app[data-focus=issues] #poSection{display:none!important}
+#app[data-focus=sales] #managementPanel,#app[data-focus=sales] #workListSection{display:none!important}
+#app[data-focus=team] #workListSection,#app[data-focus=team] #poSection{display:none!important}
+#app[data-focus=requests] #shortageSection,#app[data-focus=issues] #reportSection,#app[data-focus=sales] #poSection,#app[data-focus=work] #workListSection{display:block!important}
+#app[data-focus=team] #managementPanel .management-metrics{display:none!important}
+#app[data-focus=team] #managementPanel{display:block!important}
+#app[data-focus=today] #managementPanel:not(.hidden){display:block!important}
+#app[data-focus=issues] #workListSection{display:block!important}
+#app #employeeProfile,#app #oldMetrics,#app #teamMotivation,#app #dailyMessage,#app #quickMenu{display:none!important}
+#app #slsMain>.entry-panel:not(.hidden){display:block}
+#app #slsMain>.entry-panel.hidden{display:none!important}
+#app .work-filters{border-color:#314357!important}
+#app .admin-fold{margin-bottom:9px!important}
+#app .admin-fold>summary:before{background:#263a4d!important;color:#d9b87a!important}
+#app .admin-fold>summary:hover{background:#1c2d40!important}
+#app #managementDrilldown{background:#172638!important;border-color:#30465a!important}
+#app #managementDrilldownTitle{color:#f3f6fa!important}
+#app .intro .actions{flex:none!important}
+@media(max-width:850px){
+header{height:65px!important;padding:10px 16px!important}
+header strong{font-size:15px!important}
+header .brand-secondary{display:none!important}
+.shell{padding:14px 13px 100px!important}
+#app>.intro{padding:6px 0 15px!important}
+#app>.intro h1{font-size:24px!important}
+#slsWorkspace{display:block}
+#slsNav{position:fixed;top:auto;bottom:0;left:0;right:0;z-index:40;display:flex;flex-direction:row;justify-content:space-around;gap:0;border-radius:0;border:0;border-top:1px solid #34475c;background:#0d1724;padding:7px max(6px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))}
+#slsNav .nav-caption{display:none}
+#slsNav button{display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;padding:7px 4px;min-width:0;flex:1;font-size:10px;min-height:49px}
+#slsNav button svg{width:19px;height:19px}
+#slsNav button[aria-current=page]{box-shadow:inset 0 2px #d9b87a}
+#slsPageTitle{margin:0 0 13px}
+#slsPageTitle h2{font-size:19px!important}
+#slsPageTitle p{font-size:11px}
+#app .section,#app #managementPanel{padding:15px!important;margin-bottom:12px!important}
+#app .metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+#app .metric{min-height:91px!important;padding:13px!important}
+#app .metric strong{font-size:26px!important}
+#app .task{padding:13px!important}
 }
 </style>
-<script id="sls-focus-controller">
+<script id="sls-premium-controller">
 (function(){
 const app=document.getElementById('app');if(!app)return;
-const nav=document.createElement('nav');nav.id='slsFocusNav';nav.setAttribute('aria-label','أقسام البرنامج');
-const tabs=[['today','اليوم'],['work','الشغل'],['requests','الخامات'],['issues','المشكلات'],['sales','المبيعات'],['team','الفريق']];
-nav.innerHTML=tabs.map(([id,label])=>'<button type="button" data-tab="'+id+'">'+label+'</button>').join('');
-app.insertBefore(nav,app.firstChild);
-const quick=document.createElement('button');quick.id='focusQuickAction';quick.className='btn';quick.type='button';quick.textContent='+ شغل جديد';app.appendChild(quick);
-const heading=document.querySelector('#app > .intro .sub');
-function navigate(tab){
-if(typeof user==='undefined'||!user)return;
-if(tab==='team'&&!isAdmin())tab='today';
-app.dataset.focus=tab;
-nav.querySelectorAll('button').forEach(b=>{b.hidden=b.dataset.tab==='team'&&!isAdmin();if(b.dataset.tab===tab)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
-const labels={today:'المطلوب منك واللي محتاج متابعة',work:'كل شغلانة ومسؤولها وحالتها',requests:'اكتب الخامات أو ارفع صورة الورقة',issues:'سجّل المشكلة وتابع حلها',sales:'تسجيل ومتابعة أوامر الشراء',team:'فريق العمل والمتابعة'};
-if(heading)heading.textContent=labels[tab];
-const shortage=document.getElementById('shortageSection'),report=document.getElementById('reportSection');
-if(tab==='requests')shortage?.classList.remove('hidden');else shortage?.classList.add('hidden');
-if(tab==='issues'){report?.classList.remove('hidden');const view=document.getElementById('viewMode');if(view){view.value='issues';try{render()}catch(e){console.error(e)}}}
-else {report?.classList.add('hidden');if(tab==='work'){const view=document.getElementById('viewMode');if(view){view.value=isAdmin()?'all':'mine';try{render()}catch(e){console.error(e)}}}}
-const po=document.getElementById('poSection');if(tab==='sales'){po?.classList.remove('hidden');try{renderPO()}catch(e){console.error(e)}}
-quick.textContent=tab==='requests'?'+ طلب خامات':tab==='issues'?'+ بلاغ مشكلة':tab==='sales'?'+ تسجيل PO':'+ شغل جديد';
-quick.style.display=tab==='team'?'none':'';
+const icons={today:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',work:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',requests:'<path d="M4 7h16v13H4zM8 7V4h8v3M4 12h16"/>',issues:'<path d="M12 3 2 21h20L12 3zM12 9v5M12 18h.01"/>',sales:'<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 10h18M7 16h3"/>',team:'<circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M17 6a3 3 0 0 1 0 6M18 15a5 5 0 0 1 3 5"/>'};
+const pages=[['today','نظرة عامة','الأهم الآن، من غير تفاصيل مالهاش لازمة'],['work','الشغل','المهام والمسؤوليات وتحديثات التنفيذ'],['requests','الخامات','طلبات الخامات والمرفقات والمتابعة'],['issues','المشكلات','المشكلات المسجلة وحالة حلها'],['sales','المبيعات','أوامر الشراء والمراجعة'],['team','الفريق','متابعة مسؤوليات الفريق']];
+const intro=app.querySelector(':scope > .intro');const nav=document.createElement('nav');nav.id='slsNav';nav.setAttribute('aria-label','التنقل الرئيسي');nav.innerHTML='<div class="nav-caption">WORKSPACE</div>'+pages.map(([id,title])=>'<button type="button" data-page="'+id+'"><svg viewBox="0 0 24 24" aria-hidden="true">'+icons[id]+'</svg><span>'+title+'</span></button>').join('');
+const workspace=document.createElement('div');workspace.id='slsWorkspace';const main=document.createElement('div');main.id='slsMain';const title=document.createElement('div');title.id='slsPageTitle';main.appendChild(title);workspace.append(nav,main);
+intro.after(workspace);
+let node=workspace.nextSibling;while(node){const next=node.nextSibling;if(node.nodeType===1)main.appendChild(node);node=next}
+function go(page){
+if(typeof user==='undefined'||!user)return;if(page==='team'&&!isAdmin())page='today';app.dataset.focus=page;
+nav.querySelectorAll('button').forEach(b=>{b.hidden=b.dataset.page==='team'&&!isAdmin();if(b.dataset.page===page)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+const p=pages.find(x=>x[0]===page);title.innerHTML='<div><h2>'+p[1]+'</h2><p>'+p[2]+'</p></div><button type="button" class="btn" id="slsNewAction">'+(page==='requests'?'طلب جديد':page==='issues'?'بلاغ جديد':page==='sales'?'تسجيل PO':page==='team'?'عرض الشغل':'+ شغل جديد')+'</button>';
+const action=title.querySelector('button');action.onclick=()=>{if(page==='team')go('work');else if(page==='requests'){openMaterialRequest()}else if(page==='issues'){openReport()}else if(page==='sales'){document.getElementById('poClient')?.focus()}else if(isAdmin())openForm();else openMyWork()};
+const shortage=document.getElementById('shortageSection'),report=document.getElementById('reportSection'),po=document.getElementById('poSection');
+if(page==='requests'){shortage?.classList.remove('hidden');try{renderShortages()}catch(e){console.error(e)}}else shortage?.classList.add('hidden');
+if(page==='issues'){report?.classList.remove('hidden');const view=document.getElementById('viewMode');if(view)view.value='issues';try{render()}catch(e){console.error(e)}}else report?.classList.add('hidden');
+if(page==='work'){const view=document.getElementById('viewMode');if(view)view.value=isAdmin()?'all':'mine';try{render()}catch(e){console.error(e)}}
+if(page==='sales'){po?.classList.remove('hidden');try{renderPO()}catch(e){console.error(e)}}else po?.classList.add('hidden');
+const form=document.getElementById('form'),my=document.getElementById('myWorkForm');if(page!=='work'){form?.classList.add('hidden');my?.classList.add('hidden')}
+window.scrollTo({top:0,behavior:'instant'});
 }
-nav.addEventListener('click',e=>{const b=e.target.closest('button[data-tab]');if(b)navigate(b.dataset.tab)});
-quick.addEventListener('click',()=>{const tab=app.dataset.focus;if(tab==='sales'){document.getElementById('poClient')?.focus();document.getElementById('poSection')?.scrollIntoView({behavior:'smooth'})}else if(tab==='requests'){document.getElementById('missingItem')?.focus();document.getElementById('shortageSection')?.scrollIntoView({behavior:'smooth'})}else if(tab==='issues'){document.getElementById('reportDetails')?.focus();document.getElementById('reportSection')?.scrollIntoView({behavior:'smooth'})}else if(isAdmin()){openForm()}else{openMyWork()}});
-const baseLogin=window.login;
-window.login=function(){baseLogin();if(typeof user!=='undefined'&&user){navigate('today')}};
-navigate('today');
+nav.addEventListener('click',e=>{const b=e.target.closest('[data-page]');if(b)go(b.dataset.page)});
+const oldLogin=window.login;window.login=function(){oldLogin();if(typeof user!=='undefined'&&user)go('today')};
+window.slsGo=go;
 })();
 </script></body></html>
