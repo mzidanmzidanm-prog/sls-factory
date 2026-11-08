@@ -419,7 +419,7 @@ app.insertBefore(nav,app.firstChild);
 const quick=document.createElement('button');quick.id='focusQuickAction';quick.className='btn';quick.type='button';quick.textContent='+ شغل جديد';app.appendChild(quick);
 const heading=document.querySelector('#app > .intro .sub');
 function navigate(tab){
-if(!window.user)return;
+if(typeof user==='undefined'||!user)return;
 if(tab==='team'&&!isAdmin())tab='today';
 app.dataset.focus=tab;
 nav.querySelectorAll('button').forEach(b=>{b.hidden=b.dataset.tab==='team'&&!isAdmin();if(b.dataset.tab===tab)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
@@ -436,7 +436,7 @@ quick.style.display=tab==='team'?'none':'';
 nav.addEventListener('click',e=>{const b=e.target.closest('button[data-tab]');if(b)navigate(b.dataset.tab)});
 quick.addEventListener('click',()=>{const tab=app.dataset.focus;if(tab==='sales'){document.getElementById('poClient')?.focus();document.getElementById('poSection')?.scrollIntoView({behavior:'smooth'})}else if(tab==='requests'){document.getElementById('missingItem')?.focus();document.getElementById('shortageSection')?.scrollIntoView({behavior:'smooth'})}else if(tab==='issues'){document.getElementById('reportDetails')?.focus();document.getElementById('reportSection')?.scrollIntoView({behavior:'smooth'})}else if(isAdmin()){openForm()}else{openMyWork()}});
 const baseLogin=window.login;
-window.login=function(){baseLogin();if(window.user){navigate('today')}};
+window.login=function(){baseLogin();if(typeof user!=='undefined'&&user){navigate('today')}};
 navigate('today');
 })();
 </script></body></html>
