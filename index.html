@@ -696,4 +696,32 @@ const oldLogin=window.login;window.login=function(){oldLogin();update()};
 const oldLogout=window.logout;if(typeof oldLogout==='function')window.logout=function(){oldLogout();bar.style.display='none'};
 update();
 })();
+</script><script id="sls-demo-po-seeder">
+(function(){
+const prefix='sls_presentation_20261109_',key='sls_factory_po_demo_v1';
+const samples=[
+['sandy','النيل للمعدات — DEMO','Wire Rope Slings 16 mm × 8',68500,2,'approved'],
+['mahmoud','الأفق للحديد — DEMO','Shackles 6.5T × 12',42750,3,'approved'],
+['sandy','المصرية للخدمات البحرية — DEMO','Webbing Slings 4 Ply × 10',98500,4,'approved'],
+['mahmoud','المدار للصناعات — DEMO','Steel Fabrication Support Frame',156000,5,'approved'],
+['sandy','مقاولات الدلتا — DEMO','Turnbuckles & Hooks',33400,6,'pending'],
+['mahmoud','الخليج للمشروعات — DEMO','Wire Rope Slings + Master Links',117800,7,'pending'],
+['sandy','المتحدة للصناعات — DEMO','Chain Hoists × 2',79000,8,'approved'],
+['mahmoud','الصفوة للمعدات — DEMO','Shackles & Lifting Accessories',59200,8,'approved']
+];
+const read=()=>{try{const p=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(p)?p:[]}catch(e){return []}};
+const bar=document.getElementById('slsDemoBar');if(!bar)return;
+const button=document.createElement('button');button.type='button';button.textContent='تجهيز POs';button.id='slsDemoPO';bar.insertBefore(button,document.getElementById('slsDemoClear'));
+const doc='data:image/svg+xml;charset=utf-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="640" height="320"><rect width="640" height="320" fill="#142237"/><text x="35" y="75" font-family="Arial" font-size="30" fill="#efcf92">SLS - DEMO PO</text><text x="35" y="130" font-family="Arial" font-size="19" fill="white">SAMPLE DOCUMENT - NOT A REAL ORDER</text></svg>');
+button.onclick=()=>{
+if(!isAdmin())return;
+const old=read();if(old.some(p=>String(p.id).startsWith(prefix))){alert('أوامر العرض موجودة بالفعل');window.slsGo?.('sales');return}
+const month=new Date().toISOString().slice(0,7),at=new Date().toISOString();
+const rows=samples.map((p,i)=>({id:prefix+'po_'+i,owner:p[0],client:p[1],items:p[2],amount:p[3],date:month+'-'+String(p[4]).padStart(2,'0'),status:p[5],number:'DEMO-PO-'+String(i+1).padStart(3,'0'),attachment:doc,fileName:'DEMO-PO.svg',fileType:'image/svg+xml',created:at,demo:true,history:[{by:p[0],action:'created',at}]}));
+try{localStorage.setItem(key,JSON.stringify([...rows,...old]));poRecords=read();document.getElementById('poReportMonth').value=month;renderPO();window.slsGo?.('sales');alert('تم تجهيز 8 أوامر شراء تجريبية.')}catch(e){alert('تعذر حفظ بيانات العرض: '+e.message)}
+};
+const clear=document.getElementById('slsDemoClear');clear.addEventListener('click',()=>{
+try{const clean=read().filter(p=>!String(p.id).startsWith(prefix));localStorage.setItem(key,JSON.stringify(clean));poRecords=clean;if(typeof user!=='undefined'&&user)renderPO()}catch(e){console.error(e)}
+});
+})();
 </script></body></html>
