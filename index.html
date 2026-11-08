@@ -439,7 +439,7 @@ body{background:var(--sls-bg)!important}
 body{background:#080f19!important}
 header{background:linear-gradient(100deg,#0c1827,#12253a)!important;border-bottom:1px solid #34485d!important;box-shadow:0 9px 32px #0004}
 header strong{display:flex;align-items:center;gap:9px;letter-spacing:.08em}
-header .sls-official-logo{width:40px;height:40px;background:#f4e3bc;border-radius:12px;padding:5px;box-shadow:0 0 0 1px #d9b87955}
+header .sls-official-logo{width:36px;height:36px;background:transparent;border-radius:0;padding:0;box-shadow:none}header .sls-official-logo circle,header .sls-official-logo path{stroke:#e7edf4}header .sls-official-logo text{fill:#e7edf4}
 header .brand-secondary{color:#e6c88e!important;font-size:11px!important;letter-spacing:.16em}
 .sls-brand-stage{position:relative;isolation:isolate;display:grid;grid-template-columns:1.1fr 1fr;align-items:center;min-height:275px;overflow:hidden;background:radial-gradient(ellipse at 80% 30%,#1b3d51 0%,transparent 52%),linear-gradient(120deg,#101d2b,#0b1522);border:1px solid #3b4b5c;border-radius:23px;padding:25px 31px;margin:5px 0 20px;box-shadow:0 24px 70px #0005}
 .sls-brand-stage:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 48%,#ffffff09 49%,transparent 50%);background-size:210% 100%;animation:slsSheen 12s linear infinite}
@@ -468,6 +468,37 @@ header .brand-secondary{font-size:9px!important;letter-spacing:.08em!important;c
 #app .task:hover,#app .metric:hover{transform:none!important}
 #app button.btn:hover{filter:brightness(1.06)}
 @media(max-width:680px){header strong{gap:6px}header .sls-header-name{font-size:14px}header .brand-secondary{display:none!important}#app>.intro{padding:5px 0 12px!important}#app>.intro h1{font-size:21px!important}}
+</style><style id="sls-mobile-focus-fix">
+#slsHero{display:none!important}
+#slsPageTitle .sls-eyebrow{display:none!important}
+#slsPageTitle{padding:5px 0 11px!important;margin:0 0 10px!important;min-height:0!important}
+#slsPageTitle h2{font-size:clamp(20px,3vw,25px)!important;margin:0 0 3px!important}
+#slsPageTitle p{font-size:12px!important;margin:0!important;color:#9eacbd!important}
+#slsPageTitle .btn{font-size:12px!important;padding:9px 12px!important}
+#app>.intro{display:none!important}
+#app .profile-panel[hidden]{display:none!important}
+#app .management-heading{margin-bottom:9px!important}
+#app .management-heading h2{font-size:17px!important}
+#app .management-heading .sub{font-size:11px!important}
+#app .management-metrics{gap:9px!important}
+#app .management-metrics .metric{padding:12px!important;min-height:95px!important}
+#app .management-metrics .metric strong{font-size:27px!important}
+#slsDemoBar{padding:8px 10px!important;gap:6px!important;margin:4px 0 12px!important;border-style:solid!important}
+#slsDemoBar button{font-size:11px!important;padding:7px 9px!important}
+#slsDemoBar .sls-demo-note{font-size:10px!important}
+header{min-height:60px!important;padding:10px 14px!important;overflow:hidden}
+header>div:first-child{min-width:0}
+header strong{font-size:15px!important;gap:7px!important;min-width:0}
+header .sls-header-name{font-size:15px!important;overflow:hidden;text-overflow:ellipsis}
+header .brand-secondary{display:none!important}
+header .identity{min-width:0;gap:7px!important}
+header #who{max-width:100px!important;font-size:11px!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+header .avatar{width:32px;height:32px;flex:none}
+header .sls-official-logo{width:34px!important;height:34px!important;background:transparent!important;padding:0!important;flex:none}
+header .sls-official-logo circle,header .sls-official-logo path{stroke:#e6edf5!important}
+header .sls-official-logo text{fill:#e6edf5!important}
+#slsNav .sls-nav-footer,#slsNav .nav-caption{display:none!important}
+@media(max-width:650px){.shell{padding-top:8px!important}#slsMain{padding-top:7px!important}#slsPageTitle{margin-bottom:7px!important}#app .section{padding:13px!important;margin-top:9px!important}#app .metric strong{font-size:25px!important}#slsDemoBar{flex-wrap:wrap!important}#slsDemoBar .sls-demo-note{flex-basis:100%;min-width:0!important;order:2}#slsDemoBar button{flex:1;min-width:0}#slsNav button{font-size:11px!important}#slsNav .sls-nav-icon{font-size:17px!important}}
 </style></head><body><header><div><strong><svg class="sls-official-logo" viewBox="0 0 120 120" role="img" aria-label="SLS" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="16" r="11" fill="none" stroke="#07172f" stroke-width="7"/><path d="M60 27V38" stroke="#07172f" stroke-width="9"/><text x="60" y="70" text-anchor="middle" fill="#07172f" font-family="Arial,sans-serif" font-size="41" font-weight="800" letter-spacing="1">SLS</text><path d="M60 76V109M24 86Q60 126 96 86" fill="none" stroke="#07172f" stroke-width="9"/><path d="M23 86l1 17 13-9M97 86l-1 17-13-9" fill="#1264a5"/></svg> <span class="sls-header-name">إدارة مصنع SLS</span><span class="brand-secondary">SPECIALISED LIFTING SERVICES</span></strong><small>إدارة وتشغيل المصنع</small></div><div class="identity"><span id="who">مساحة العمل</span><div class="avatar" id="avatar">S</div></div></header>
 <div class="shell"><section id="login" class="section login"><h1>تسجيل الدخول</h1><p class="sub">الوصول إلى نظام إدارة المصنع</p><label class="field">المستخدم</label><select id="loginUser"><option value="mahmoud">محمود زيدان</option><option value="mohamed">محمد عبد الدايم</option><option value="islam">إسلام</option><option value="hossam">حسام</option><option value="sandy">ساندي</option></select><label class="field">كلمة المرور</label><input id="password" type="password" placeholder="كلمة المرور"><p id="loginError" style="color:#b42318;font-size:13px"></p><button class="btn" style="width:100%;margin-top:10px" onclick="login()">دخول</button></section>
 <main id="app" class="hidden"><div class="intro"><div><h1 id="greeting">مساحة العمل</h1><div class="sub">متابعة التشغيل والمهام والمبيعات في مكان واحد.</div></div><div class="actions"><button class="btn light" onclick="openReport()">⚠️ بلّغ عن مشكلة</button><button class="btn light" onclick="toggleShortage()">📦 طلب خامات</button><button class="btn light logout-btn" onclick="logout()">خروج</button></div></div><section id="employeeProfile" class="profile-panel" aria-label="بروفايل الموظف"><div><h2 id="profileName">مساحة شغلي</h2><p id="profileRole"></p><div id="profileStats" class="profile-stats"></div></div><div class="profile-actions"><button class="btn" type="button" onclick="openMyWork()">+ إضافة شغل</button><button class="btn" type="button" onclick="openSalesFromProfile()">+ تسجيل بيع / PO</button></div></section><div class="notice">نسخة تجريبية — البيانات محفوظة على هذا الجهاز فقط ولا تتزامن بين الموظفين. تسجيل الدخول الحالي للاختبار فقط.</div>
@@ -649,7 +680,7 @@ const pages=[['today','الرئيسية','ملخص الشغل والقرارات
 const intro=app.querySelector(':scope > .intro');if(!intro)return;
 const workspace=document.createElement('div');workspace.id='slsWorkspace';
 const nav=document.createElement('nav');nav.id='slsNav';nav.setAttribute('aria-label','القائمة الرئيسية');
-nav.innerHTML='<div class="sls-brand"><span class="sls-brand-mark">S</span><div><strong>SLS</strong><small>FACTORY DESK</small></div></div><div class="nav-caption">مساحة العمل</div>'+pages.map(p=>'<button type="button" data-page="'+p[0]+'"><span class="sls-nav-icon">'+p[3]+'</span><span>'+p[1]+'</span></button>').join('')+'<div class="sls-nav-footer">OPERATIONS CONTROL <span class="sls-live-dot"></span></div>';
+nav.innerHTML='<div class="sls-brand"><span class="sls-brand-mark">SLS</span><div><strong>إدارة المصنع</strong></div></div>'+pages.map(p=>'<button type="button" data-page="'+p[0]+'"><span class="sls-nav-icon">'+p[3]+'</span><span>'+p[1]+'</span></button>').join('');
 const main=document.createElement('main');main.id='slsMain';
 const title=document.createElement('div');title.id='slsPageTitle';
 const hero=document.createElement('div');hero.id='slsHero';hero.innerHTML='<div><span class="sls-eyebrow">SLS / OPERATIONS HUB</span><h2>المصنع كله قدامك.</h2><p>تابع التنفيذ، اتصرف في اللي واقف، وخلي كل حاجة في مكانها.</p></div><div class="sls-hero-actions"><button type="button" id="slsCommand" class="btn light">⌕ بحث سريع <kbd>Ctrl K</kbd></button><button type="button" id="slsHeroNew" class="btn">+ شغل جديد</button></div>';
@@ -662,11 +693,11 @@ if(typeof user==='undefined'||!user)return;
 if(page==='team'&&!isAdmin())page='today';
 current=page;app.dataset.focus=page;
 nav.querySelectorAll('[data-page]').forEach(b=>{b.hidden=b.dataset.page==='team'&&!isAdmin();b.toggleAttribute('aria-current',b.dataset.page===page)});
-const p=pages.find(x=>x[0]===page)||pages[0];
-title.innerHTML='<div><span class="sls-eyebrow">SLS FACTORY / '+p[0].toUpperCase()+'</span><h2>'+p[1]+'</h2><p>'+p[2]+'</p></div><button type="button" class="btn" id="slsNewAction">'+(page==='requests'?'+ طلب خامات':page==='issues'?'+ بلاغ جديد':page==='sales'?'+ أمر شراء':'+ شغل جديد')+'</button>';
+const p=pages.find(x=>x[0]===page)||pages[0];const profile=document.getElementById('employeeProfile');if(profile)profile.hidden=isAdmin();
+title.innerHTML='<div><h2>'+p[1]+'</h2><p>'+p[2]+'</p></div><button type="button" class="btn" id="slsNewAction">'+(page==='requests'?'+ طلب خامات':page==='issues'?'+ بلاغ جديد':page==='sales'?'+ أمر شراء':'+ شغل جديد')+'</button>';const actionButton=title.querySelector('button');actionButton.hidden=page==='today'||page==='team'||(page==='sales'&&isAdmin());
 const wanted=sections[page]||[];
 movable.forEach(id=>{const el=document.getElementById(id);if(!el)return;if(id==='form'||id==='myWorkForm'){el.classList.add('hidden');return}el.classList.toggle('hidden',!wanted.includes(id)||(id==='managementPanel'&&!isAdmin()))});
-hero.hidden=page!=='today';
+hero.hidden=true;
 if(page==='issues'){const v=document.getElementById('viewMode');if(v)v.value='issues';}
 if(page==='work'){const v=document.getElementById('viewMode');if(v)v.value=isAdmin()?'all':'mine';}
 try{render();if(page==='requests'&&typeof renderShortages==='function')renderShortages();if(page==='sales'&&typeof renderPO==='function')renderPO()}catch(e){console.error('SLS view',e)}
@@ -706,7 +737,7 @@ const shortages=[
 {item:'مستلزمات لحام للتجميع النهائي — حسب كشف حسام',department:'Steel Fabrication',urgency:'عاجلة',blocks:true,note:'تحديد النوع والكمية من كشف الخامات ومراجعة المخزون قبل التوريد.',by:'hossam'},
 {item:'بطاقات تعريف وتغليف Slings جاهزة للتسليم',department:'Wire Rope',urgency:'عادية',blocks:false,note:'طلب استكمال تجهيزات التسليم بعد الفحص النهائي.',by:'islam'}
 ];
-const bar=document.createElement('div');bar.id='slsDemoBar';bar.innerHTML='<span class="sls-demo-tag">DEMO / بيانات عرض</span><span class="sls-demo-note" id="slsDemoNote">سيناريوهات توضيحية غير حقيقية — لا تُستخدم كأوامر تشغيل.</span><button type="button" id="slsDemoLoad">تجهيز العرض</button><button type="button" id="slsDemoClear">مسح بيانات العرض</button>';
+const bar=document.createElement('div');bar.id='slsDemoBar';bar.innerHTML='<span class="sls-demo-tag">بيانات تجريبية</span><span class="sls-demo-note" id="slsDemoNote">للعرض فقط</span><button type="button" id="slsDemoLoad">تجهيز التشغيل</button><button type="button" id="slsDemoClear">مسح العرض</button>';
 const app=document.getElementById('app');if(!app)return;const intro=app.querySelector(':scope > .intro');intro?.after(bar);
 function read(k){try{const a=JSON.parse(localStorage.getItem(k)||'[]');return Array.isArray(a)?a:[]}catch(e){return []}}
 function write(k,a){localStorage.setItem(k,JSON.stringify(a))}
